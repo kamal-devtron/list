@@ -47,6 +47,7 @@ def time_format(create_timestamp):
 authout=auth()
 if(authout[0]==0):
     print("Authentication is successed")
+    sleep(30)
     print("List of All Vm \n")
     for i in range(len(filter_array)):
         q3="[?name==\`{}\`].resourceGroup".format(filter_array[i])
