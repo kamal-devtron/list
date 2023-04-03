@@ -31,7 +31,7 @@ def list_all_vm():
      str=sp.getoutput("az vm list --query {} -o tsv".format(q2))
      l=list(str.split())
      return l
-
+time.sleep(20)
 vm_list=list_all_vm()
 l=filter()
 filter_array= [item for item in vm_list if item not in l]
