@@ -1,6 +1,7 @@
 import subprocess as sp , sys
 from datetime import datetime
 import requests
+import time 
 
 # Get the all arguments
 username=sys.argv[1]
@@ -47,7 +48,7 @@ def time_format(create_timestamp):
 authout=auth()
 if(authout[0]==0):
     print("Authentication is successed")
-    sleep(30)
+    time.sleep(30)
     print("List of All Vm \n")
     for i in range(len(filter_array)):
         q3="[?name==\`{}\`].resourceGroup".format(filter_array[i])
