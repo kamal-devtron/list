@@ -31,6 +31,9 @@ def list_all_vm():
      str=sp.getoutput("az vm list --query {} -o tsv".format(q2))
      l=list(str.split())
      return l
+    
+    
+authout=auth()    
 time.sleep(20)
 vm_list=list_all_vm()
 l=filter()
@@ -45,7 +48,7 @@ def time_format(create_timestamp):
     right_format=current_time-(datetime.strptime(create_timestamp[:19],'%Y-%m-%dT%H:%M:%S'))
     return right_format
 
-authout=auth()
+
 if(authout[0]==0):
     print("Authentication is successed")
     time.sleep(30)
