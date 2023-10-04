@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devtron-nats-box
+  namespace: devtroncd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devtron-nats-box
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: devtron-nats-box
+    spec:
+      containers:
+        - command:
+            - tail
+            - -f
+            - /dev/null
+          env:
+            - name: NATS_URL
+              value: devtron-nats
+          image: quay.io/devtron/nats-box:0.7.0
+          imagePullPolicy: IfNotPresent
+          name: nats-box
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+
+
+ 
