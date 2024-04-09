@@ -1,25 +1,29 @@
-import subprocess as sp , sys, os
-# Get the all arguments
+import subprocess as sp,sys,time
+
 username=sys.argv[1]
 password=sys.argv[2]
 tenantid=sys.argv[3]
-print("Stopping Automation cluster")
+rg=sys.argv[4]
+name=sys.argv[5]
+
+
 def auth():
     authoutput=sp.getstatusoutput("az login --service-principal -u {} -p {} --tenant {}".format(username,password,tenantid))
     return authoutput
 
-def stop():
-     str=sp.getoutput("az aks stop --resource-group automation-rg --name automation-aks   --output json")
-     return str
 
+ 
+#Function to ShutDown Vm 
+def stop():
+    str=sp.getoutput("az aks stop --resource-group {}  --name {}".format(rg,name))
+    print(str)
+    sp.getoutput("az aks nodepool list --resource-group {} --cluster-name {}  --query \"[?mode=='System'].count\" -o tsv").format(rg,name)
+    print("Sucessfully Stopped")
 
 
 authout=auth()
 if(authout[0]==0):
-    print("Authentication Done")
-    res=stop()
-    count=sp.getoutput("az aks nodepool list --resource-group automation-rg  --cluster-name automation-aks  --query \"[?mode=='System'].count\" -o tsv") 
-    print(count)
-    print("Stopped sucessfully")
+    print("Authentication is successed")
+    stop()
 else:
     print("Authentication failed",authout[1])
